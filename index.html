@@ -820,8 +820,10 @@
         introBgm.volume = 0.2; 
         introBgm.loop = true;
 
-        introVoice.play().catch(() => { });
-        introBgm.play().catch(() => { });
+        setTimeout(()=>{
+          introVoice.play().catch(()=>{});
+          introBgm.play().catch(()=>{});
+        }, 1000); // chờ 1s rồi tự chạy
 
         function closeIntro() {
             const intro = document.getElementById('intro');
@@ -833,5 +835,6 @@
         }
     </script>
 </body>
+
 
 </html>
