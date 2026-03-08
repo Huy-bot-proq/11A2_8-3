@@ -393,11 +393,67 @@
                 transform: translate(0, 0) scale(1);
                 opacity: 1;
             }
-
             100% {
                 transform: translate(var(--sx), var(--sy)) scale(0);
                 opacity: 0;
             }
+        }
+
+        /* click burst particle */
+        .click-burst {
+            position: fixed;
+            pointer-events: none;
+            z-index: 201;
+            border-radius: 50%;
+            animation: burstFly .7s ease-out forwards;
+        }
+
+        @keyframes burstFly {
+            0%   { transform: translate(0,0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--bx), var(--by)) scale(0); opacity: 0; }
+        }
+
+        /* ô đã xem → mờ đi */
+        .name-cell.viewed {
+            opacity: 0.35;
+            filter: grayscale(40%);
+            transform: scale(0.95);
+            transition: opacity .5s, filter .5s, transform .5s;
+        }
+
+        /* màn hình lời chúc cuối */
+        #finalMsg {
+            display: none;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 60px 30px 80px;
+            animation: fadeInUp .9s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        #finalMsg .final-inner {
+            display: inline-block;
+            background: linear-gradient(135deg, #fff0f4, #ffe8ee);
+            border: 1.5px solid #f7a8bc;
+            border-radius: 24px;
+            padding: 40px 44px;
+            max-width: 600px;
+            box-shadow: 0 16px 50px rgba(192,23,58,.13);
+        }
+
+        #finalMsg .final-icon { font-size: 2.5rem; margin-bottom: 16px; }
+
+        #finalMsg p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--deep);
+            font-style: italic;
+            line-height: 1.75;
         }
 
         /* footer */
@@ -446,28 +502,37 @@
   cursor:pointer; overflow:hidden;
 " onclick="closeIntro()">
 
-        <!-- Lớp ảnh 1 — chạy trái sang phải liên tục -->
-        <div style="position:absolute; top:0; height:50%; display:flex; width:max-content;
+        <!-- Lớp ảnh 1 — chạy trái sang phải -->
+        <div style="position:absolute; top:0; height:33.33%; display:flex; width:max-content;
   animation:slideRow1 20s linear infinite;">
-            <img src="anh3.jpg" style="height:200px; width:400px; object-fit:cover;" />
-            <img src="anh2.jpg" style="height:200px; width:400px; object-fit:cover;" />
-            <img src="anh3.jpg" style="height:200px; width:400px; object-fit:cover;" />
-            <!-- nhân đôi lại để liền mạch -->
-            <img src="anh2.jpg" style="height:200px; width:400px; object-fit:cover;" />
-            <img src="anh3.jpg" style="height:200px; width:400px; object-fit:cover;" />
-            <img src="anh2.jpg" style="height:200px; width:400px; object-fit:cover;" />
+            <img src="anh3.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh2.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh3.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh2.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh3.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh2.jpg" style="height:100%; width:400px; object-fit:cover;" />
         </div>
 
-        <!-- Lớp ảnh 2 — chạy phải sang trái liên tục -->
-        <div style="position:absolute; bottom:0; height:50%; display:flex; width:max-content;
-  animation:slideRow2 20s linear infinite;">
-            <img src="anh3.jpg" style="height:200px; width:400px; object-fit:cover;" />
-            <img src="anh2.jpg" style="height:200px; width:400px; object-fit:cover;" />
-            <img src="anh3.jpg" style="height:200px; width:400px; object-fit:cover;" />
-            <!-- nhân đôi lại để liền mạch -->
-            <img src="anh2.jpg" style="height:200px; width:400px; object-fit:cover;" />
-            <img src="anh3.jpg" style="height:200px; width:400px; object-fit:cover;" />
-            <img src="anh2.jpg" style="height:200px; width:400px; object-fit:cover;" />
+        <!-- Lớp ảnh 2 — chạy phải sang trái -->
+        <div style="position:absolute; top:33.33%; height:33.33%; display:flex; width:max-content;
+  animation:slideRow2 25s linear infinite;">
+            <img src="anh2.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh3.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh2.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh3.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh2.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh3.jpg" style="height:100%; width:400px; object-fit:cover;" />
+        </div>
+
+        <!-- Lớp ảnh 3 — chạy trái sang phải (chậm hơn) -->
+        <div style="position:absolute; bottom:0; height:33.33%; display:flex; width:max-content;
+  animation:slideRow1 30s linear infinite;">
+            <img src="anh3.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh2.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh3.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh2.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh3.jpg" style="height:100%; width:400px; object-fit:cover;" />
+            <img src="anh2.jpg" style="height:100%; width:400px; object-fit:cover;" />
         </div>
 
         <!-- Overlay tối -->
@@ -501,7 +566,15 @@
         <div class="heart-grid" id="heartGrid"></div>
     </div>
 
-    <p class="footer">Nhấn vào tên để mở thiệp riêng của bạn ✨</p>
+    <p class="footer" id="footerHint">Nhấn vào tên để mở thiệp riêng của bạn ✨</p>
+
+    <!-- FINAL MESSAGE -->
+    <div id="finalMsg">
+        <div class="final-inner">
+            <div class="final-icon">🌸</div>
+            <p>Chúc các bạn nữ 8/3 thật nhiều niềm vui. Các bạn luôn là niềm vui và nguồn năng lượng tích cực của lớp, làm cho mỗi ngày đi học trở nên vui vẻ và đáng nhớ hơn. 🌸</p>
+        </div>
+    </div>
 
     <!-- MODAL -->
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
@@ -634,6 +707,7 @@
         /* build grid */
         const grid = document.getElementById('heartGrid');
         const cells = [];
+        const viewedSet = new Set();
 
         // create all 56 cells (8×7), show only heart ones
         for (let r = 1; r <= 7; r++) {
@@ -668,6 +742,36 @@
             }, 300 + i * 80);
         });
 
+        /* ── click burst anywhere ── */
+        const burstEmojis = ['💕','🌸','✨','🌷','💖','🎀','🩷','⭐'];
+        document.addEventListener('click', function(e) {
+            // skip nếu click vào modal, music player, intro
+            if (e.target.closest('#modalOverlay') || e.target.closest('#musicToggleBtn') ||
+                e.target.closest('[id^=pt-]') || e.target.closest('#pClose') ||
+                e.target.closest('#pPlay') || e.target.closest('#intro')) return;
+
+            for (let i = 0; i < 10; i++) {
+                const b = document.createElement('div');
+                b.className = 'click-burst';
+                const size = 6 + Math.random() * 8;
+                const colors = ['#e8436a','#f7a8bc','#d4956a','#c0173a','#f5c5d0'];
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 40 + Math.random() * 80;
+
+                // 50% chance emoji, 50% colored dot
+                if (Math.random() > 0.5) {
+                    b.style.cssText = `left:${e.clientX}px; top:${e.clientY}px; font-size:${size + 6}px; background:none;`;
+                    b.textContent = burstEmojis[Math.floor(Math.random() * burstEmojis.length)];
+                } else {
+                    b.style.cssText = `left:${e.clientX}px; top:${e.clientY}px; width:${size}px; height:${size}px; background:${colors[Math.floor(Math.random()*colors.length)]};`;
+                }
+                b.style.setProperty('--bx', Math.cos(angle) * dist + 'px');
+                b.style.setProperty('--by', Math.sin(angle) * dist + 'px');
+                document.body.appendChild(b);
+                setTimeout(() => b.remove(), 750);
+            }
+        });
+
         /* ── open card ── */
         function openCard(idx, cellEl) {
             // sparkles
@@ -696,6 +800,54 @@
             }
 
             document.getElementById('modalOverlay').classList.add('open');
+
+            // đánh dấu đã xem
+            viewedSet.add(idx);
+            setTimeout(() => cellEl.classList.add('viewed'), 400);
+
+            // kiểm tra đã xem hết chưa
+            if (viewedSet.size === girls.length) {
+                setTimeout(() => {
+                    // ẩn heart grid + footer
+                    const heartSection = document.querySelector('.heart-section');
+                    heartSection.style.transition = 'opacity .8s, transform .8s';
+                    heartSection.style.opacity = '0';
+                    heartSection.style.transform = 'scale(0.85)';
+                    document.getElementById('footerHint').style.transition = 'opacity .5s';
+                    document.getElementById('footerHint').style.opacity = '0';
+
+                    setTimeout(() => {
+                        heartSection.style.display = 'none';
+                        document.getElementById('footerHint').style.display = 'none';
+
+                        // hiện lời chúc cuối
+                        const fm = document.getElementById('finalMsg');
+                        fm.style.display = 'block';
+
+                        // bắn pháo hoa
+                        for (let k = 0; k < 4; k++) {
+                            setTimeout(() => {
+                                const cx = window.innerWidth / 2 + (Math.random()-0.5)*300;
+                                const cy = window.innerHeight / 2 + (Math.random()-0.5)*150;
+                                for (let i = 0; i < 18; i++) {
+                                    const b = document.createElement('div');
+                                    b.className = 'click-burst';
+                                    const angle = (i/18)*Math.PI*2;
+                                    const dist = 70 + Math.random()*120;
+                                    const emojis = ['💕','🌸','✨','🌷','💖','🎀'];
+                                    b.style.cssText = `left:${cx}px;top:${cy}px;font-size:${14+Math.random()*12}px;background:none;`;
+                                    b.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+                                    b.style.setProperty('--bx', Math.cos(angle)*dist+'px');
+                                    b.style.setProperty('--by', Math.sin(angle)*dist+'px');
+                                    document.body.appendChild(b);
+                                    setTimeout(()=>b.remove(), 850);
+                                }
+                            }, k * 350);
+                        }
+                    }, 850);
+                }, 600);
+            }
+
         }
 
         function closeModal(e) {
@@ -749,26 +901,57 @@
 
         let audio = null, currentTrack = -1, isPlaying = false;
 
+        // ── Music toggle button (collapsed state) ──
+        const musicBtn = document.createElement('button');
+        musicBtn.id = 'musicToggleBtn';
+        musicBtn.textContent = '🎵 Music';
+        musicBtn.style.cssText = `
+          position:fixed; bottom:20px; right:20px; z-index:999;
+          background:linear-gradient(135deg,#e8436a,#c0173a);
+          color:#fff; border:none; border-radius:30px;
+          padding:10px 20px; font-family:'DM Sans',sans-serif;
+          font-size:.85rem; font-weight:500; cursor:pointer;
+          box-shadow:0 4px 18px rgba(192,23,58,.35);
+          transition:transform .2s, box-shadow .2s;
+          letter-spacing:.05em;
+        `;
+        musicBtn.onmouseenter = () => { musicBtn.style.transform='scale(1.05)'; musicBtn.style.boxShadow='0 6px 24px rgba(192,23,58,.45)'; };
+        musicBtn.onmouseleave = () => { musicBtn.style.transform='scale(1)'; musicBtn.style.boxShadow='0 4px 18px rgba(192,23,58,.35)'; };
+        musicBtn.onclick = () => { player.style.display = 'block'; musicBtn.style.display = 'none'; };
+        document.body.appendChild(musicBtn);
+
+        // ── Music player panel ──
         const player = document.createElement('div');
         player.style.cssText = `
           position:fixed; bottom:20px; right:20px; z-index:999;
-          background:rgba(255,255,255,.92); backdrop-filter:blur(10px);
+          background:rgba(255,255,255,.95); backdrop-filter:blur(10px);
           border:1.5px solid #f7a8bc; border-radius:16px;
-          padding:14px 18px; width:250px;
-          box-shadow:0 8px 32px rgba(45,10,20,.12);
+          padding:14px 18px; width:260px;
+          box-shadow:0 8px 32px rgba(45,10,20,.15);
           font-family:'DM Sans',sans-serif;
+          display:none;
         `;
         player.innerHTML = `
-          <div style="font-size:.7rem;letter-spacing:.15em;color:#d4956a;text-transform:uppercase;margin-bottom:10px">🎵 Nhạc nền</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div style="font-size:.7rem;letter-spacing:.15em;color:#d4956a;text-transform:uppercase">🎵 Nhạc nền</div>
+            <button id="pClose" style="background:none;border:none;font-size:1rem;cursor:pointer;color:#c0173a;line-height:1;padding:0 4px;font-weight:bold" title="Đóng">✕</button>
+          </div>
           <div id="pTracks"></div>
-          <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
-            <button id="pPlay" onclick="togglePlay()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:#e8436a">▶️</button>
-            <input type="range" id="pVol" min="0" max="1" step="0.01" value="0.5" oninput="setVol(this.value)"
-              style="flex:1;accent-color:#e8436a;cursor:pointer"/>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:12px">
+            <button id="pPlay" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:#e8436a;padding:0;line-height:1">▶️</button>
             <span style="font-size:.75rem;color:#d4956a">🔊</span>
+            <input type="range" id="pVol" min="0" max="1" step="0.01" value="0.5"
+              style="flex:1;accent-color:#e8436a;cursor:pointer"/>
           </div>
         `;
         document.body.appendChild(player);
+
+        document.getElementById('pClose').onclick = () => {
+            player.style.display = 'none';
+            musicBtn.style.display = 'block';
+        };
+        document.getElementById('pPlay').onclick = togglePlay;
+        document.getElementById('pVol').oninput = function() { setVol(this.value); };
 
         const pTracks = document.getElementById('pTracks');
         tracks.forEach((t, i) => {
@@ -797,19 +980,20 @@
             else { audio.play(); isPlaying = true; }
             updateMusicUI();
         }
-        function setVol(v) { if (audio) audio.volume = v; }
+        function setVol(v) { if (audio) audio.volume = parseFloat(v); }
         function updateMusicUI() {
             document.querySelectorAll('[id^=pt-]').forEach((el, i) => {
                 el.style.background = (i === currentTrack && isPlaying) ? '#e8436a' : '';
                 el.style.color = (i === currentTrack && isPlaying) ? '#fff' : '#2d0a14';
             });
-            document.getElementById('pPlay').textContent = isPlaying ? '⏸️' : '▶️';
+            const pPlay = document.getElementById('pPlay');
+            if (pPlay) pPlay.textContent = isPlaying ? '⏸️' : '▶️';
         }
 
         /* ── INTRO AUDIO ── */
         const introVoice = new Audio('https://res.cloudinary.com/dzshz2bpv/video/upload/v1772906821/voice_eowlro.m4a');
         const introBgm = new Audio('https://res.cloudinary.com/dzshz2bpv/video/upload/v1772908072/%E6%99%9A%E6%98%9F_skol5v.mp4');
-        introBgm.volume = 0.2;
+        introBgm.volume = 0.07;
         introBgm.loop = true;
 
         /* ── INTRO 2 CLICKS ── */
@@ -846,4 +1030,3 @@
     </script>
 </body>
 </html>
-
