@@ -740,7 +740,7 @@
   `;
             document.getElementById('petals').appendChild(p);
         }
-        /* ── music ── */
+         /* ── music ── */
         const tracks = [
             { name: 'Bài hát 1', src: 'https://res.cloudinary.com/dzshz2bpv/video/upload/v1772865425/baihai1_lxnfnu.mp4' },
             { name: 'Bài hát 2', src: 'https://res.cloudinary.com/dzshz2bpv/video/upload/v1772865421/baihat2_x46jno.mp4' },
@@ -751,23 +751,23 @@
 
         const player = document.createElement('div');
         player.style.cssText = `
-  position:fixed; bottom:20px; right:20px; z-index:999;
-  background:rgba(255,255,255,.92); backdrop-filter:blur(10px);
-  border:1.5px solid #f7a8bc; border-radius:16px;
-  padding:14px 18px; width:250px;
-  box-shadow:0 8px 32px rgba(45,10,20,.12);
-  font-family:'DM Sans',sans-serif;
-`;
+          position:fixed; bottom:20px; right:20px; z-index:999;
+          background:rgba(255,255,255,.92); backdrop-filter:blur(10px);
+          border:1.5px solid #f7a8bc; border-radius:16px;
+          padding:14px 18px; width:250px;
+          box-shadow:0 8px 32px rgba(45,10,20,.12);
+          font-family:'DM Sans',sans-serif;
+        `;
         player.innerHTML = `
-  <div style="font-size:.7rem;letter-spacing:.15em;color:#d4956a;text-transform:uppercase;margin-bottom:10px">🎵 Nhạc nền</div>
-  <div id="pTracks"></div>
-  <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
-    <button id="pPlay" onclick="togglePlay()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:#e8436a">▶️</button>
-    <input type="range" id="pVol" min="0" max="1" step="0.01" value="0.5" oninput="setVol(this.value)"
-      style="flex:1;accent-color:#e8436a;cursor:pointer"/>
-    <span style="font-size:.75rem;color:#d4956a">🔊</span>
-  </div>
-`;
+          <div style="font-size:.7rem;letter-spacing:.15em;color:#d4956a;text-transform:uppercase;margin-bottom:10px">🎵 Nhạc nền</div>
+          <div id="pTracks"></div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
+            <button id="pPlay" onclick="togglePlay()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:#e8436a">▶️</button>
+            <input type="range" id="pVol" min="0" max="1" step="0.01" value="0.5" oninput="setVol(this.value)"
+              style="flex:1;accent-color:#e8436a;cursor:pointer"/>
+            <span style="font-size:.75rem;color:#d4956a">🔊</span>
+          </div>
+        `;
         document.body.appendChild(player);
 
         const pTracks = document.getElementById('pTracks');
@@ -775,7 +775,7 @@
             const d = document.createElement('div');
             d.id = 'pt-' + i;
             d.style.cssText = `display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:.83rem;color:#2d0a14;transition:background .2s`;
-            d.innerHTML = `<span>${['🎀', '🌸', '💕'][i]}</span><span style="flex:1">${t.name}</span>`;
+            d.innerHTML = `<span>${['🎀','🌸','💕'][i]}</span><span style="flex:1">${t.name}</span>`;
             d.onclick = () => playTrack(i);
             d.onmouseenter = () => { if (currentTrack !== i) d.style.background = '#fde8ee'; };
             d.onmouseleave = () => { if (currentTrack !== i) d.style.background = ''; };
@@ -789,7 +789,7 @@
             audio.volume = document.getElementById('pVol').value;
             audio.play();
             isPlaying = true; currentTrack = i; updateMusicUI();
-            audio.onended = () => { const next = (i + 1) % tracks.length; playTrack(next); };
+            audio.onended = () => playTrack((i + 1) % tracks.length);
         }
         function togglePlay() {
             if (currentTrack === -1) { playTrack(0); return; }
@@ -806,35 +806,44 @@
             document.getElementById('pPlay').textContent = isPlaying ? '⏸️' : '▶️';
         }
 
-        // auto play khi click lần đầu
-        window.addEventListener('load', () => {
-            document.body.addEventListener('click', function first() {
-                playTrack(0);
-                document.body.removeEventListener('click', first);
-            });
-        });
-
-        // INTRO
+        /* ── INTRO AUDIO ── */
         const introVoice = new Audio('https://res.cloudinary.com/dzshz2bpv/video/upload/v1772906821/voice_eowlro.m4a');
-        const introBgm = new Audio('https://res.cloudinary.com/dzshz2bpv/video/upload/v1772908072/%E6%99%9A%E6%98%9F_skol5v.mp4'); 
-        introBgm.volume = 0.2; 
+        const introBgm = new Audio('https://res.cloudinary.com/dzshz2bpv/video/upload/v1772908072/%E6%99%9A%E6%98%9F_skol5v.mp4');
+        introBgm.volume = 0.2;
         introBgm.loop = true;
 
-        setTimeout(()=>{
-          introVoice.play().catch(()=>{});
-          introBgm.play().catch(()=>{});
-        }, 1000); // chờ 1s rồi tự chạy
+        /* ── INTRO 2 CLICKS ── */
+        let introClickCount = 0;
 
-        function closeIntro() {
-            const intro = document.getElementById('intro');
-            intro.style.transition = 'opacity .8s';
-            intro.style.opacity = '0';
-            introVoice.pause();
-            introBgm.pause(); 
-            setTimeout(() => intro.remove(), 800);
-        }
+        // Ghi đè onclick của #intro
+        document.getElementById('intro').onclick = function () {
+            introClickCount++;
+
+            if (introClickCount === 1) {
+                // Click 1: phát voice + bgm intro, KHÔNG đóng màn hình
+                introVoice.play().catch(() => {});
+                introBgm.play().catch(() => {});
+
+                // Đổi chữ gợi ý
+                this.querySelector('p:last-child').textContent = 'Nhấn một lần nữa để tiếp tục ✨';
+
+            } else if (introClickCount >= 2) {
+                // Click 2: dừng intro audio, chuyển sang nhạc chính, đóng màn hình
+                introVoice.pause();
+                introBgm.pause();
+                introVoice.currentTime = 0;
+                introBgm.currentTime = 0;
+
+                playTrack(0); // bắt đầu nhạc chính
+
+                const intro = document.getElementById('intro');
+                intro.style.transition = 'opacity .8s';
+                intro.style.opacity = '0';
+                setTimeout(() => intro.remove(), 800);
+            }
+        };
+
     </script>
 </body>
-
-
 </html>
+
