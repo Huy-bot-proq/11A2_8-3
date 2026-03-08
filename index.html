@@ -573,6 +573,26 @@
         <div class="final-inner">
             <div class="final-icon">🌸</div>
             <p>Chúc các bạn nữ 8/3 thật nhiều niềm vui. Các bạn luôn là niềm vui và nguồn năng lượng tích cực của lớp, làm cho mỗi ngày đi học trở nên vui vẻ và đáng nhớ hơn. 🌸</p>
+
+            <!-- mini voice player -->
+            <div style="margin-top:28px;display:inline-flex;align-items:center;gap:12px;
+                background:linear-gradient(135deg,#fff0f4,#ffe0e8);
+                border:1.5px solid #f7a8bc; border-radius:50px;
+                padding:10px 20px;
+                box-shadow:0 4px 18px rgba(192,23,58,.13);">
+                <button id="voicePlayBtn" onclick="toggleVoice()" style="
+                    background:linear-gradient(135deg,#e8436a,#c0173a);
+                    border:none; border-radius:50%; width:40px; height:40px;
+                    color:#fff; font-size:1rem; cursor:pointer;
+                    box-shadow:0 3px 10px rgba(192,23,58,.3);
+                    transition:transform .2s;
+                    display:inline-flex;align-items:center;justify-content:center;
+                ">▶</button>
+                <span style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:#c0173a;white-space:nowrap">🎙 Lời chúc</span>
+                <span style="font-size:.75rem;color:#d4956a">🔊</span>
+                <input type="range" id="voiceVol" min="0" max="1" step="0.01" value="0.85"
+                    style="width:80px;accent-color:#e8436a;cursor:pointer"/>
+            </div>
         </div>
     </div>
 
@@ -1026,6 +1046,35 @@
                 setTimeout(() => intro.remove(), 800);
             }
         };
+
+        /* ── VOICE CUỐI ── */
+        const voiceAudio = new Audio('https://res.cloudinary.com/dzshz2bpv/video/upload/v1772982087/voice1_het5dr.m4a');
+        voiceAudio.volume = 0.85;
+        let voicePlaying = false;
+
+        document.getElementById('voiceVol').oninput = function() {
+            voiceAudio.volume = parseFloat(this.value);
+        };
+
+        function toggleVoice() {
+            const btn = document.getElementById('voicePlayBtn');
+            if (voicePlaying) {
+                voiceAudio.pause();
+                voicePlaying = false;
+                btn.textContent = '▶';
+                btn.style.transform = 'scale(1)';
+            } else {
+                voiceAudio.play().catch(()=>{});
+                voicePlaying = true;
+                btn.textContent = '⏸';
+                btn.style.transform = 'scale(1.1)';
+            }
+            voiceAudio.onended = () => {
+                voicePlaying = false;
+                btn.textContent = '▶';
+                btn.style.transform = 'scale(1)';
+            };
+        }
 
     </script>
 </body>
